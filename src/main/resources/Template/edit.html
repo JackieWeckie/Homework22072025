@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Person Table Editor</title>
+</head>
+<body>
+<h1>Edit Person</h1>
+
+<form th:action="@{/person/create}" th:object="${person}" method="post">
+  <label>
+    <input hidden th:field="*{id}" type="text">
+  </label>
+  <label>Name : </label>
+  <label>
+    <input th:field="*{name}" type="text">
+  </label>
+  <br>
+  <label>Surname : </label>
+  <label>
+    <input th:field="*{surname}" type="text">
+  </label>
+  <br>
+  <label>Age : </label>
+  <label>
+    <input th:field="*{age}" type="number">
+  </label>
+  <br>
+  <label>Type : </label>
+  <label>
+    <select th:field="*{workerType}">
+      <option th:each="option : ${options}" th:value="${option}" th:text="${option}"></option>
+    </select>
+  </label>
+  <br>
+  <label>Email : </label>
+  <label>
+    <input th:field="*{email}" type="email">
+  </label>
+
+  <br>
+
+  <div>
+    <input type="submit" value="Save">
+    <a href="/person/home">Cancel</a>
+  </div>
+</form>
+</body>
+</html>

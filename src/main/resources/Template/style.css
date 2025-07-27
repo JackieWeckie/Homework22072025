@@ -1,0 +1,54 @@
+* {
+    font-family: Segoe UI, serif;
+}
+
+.btn {
+    width: 50px;
+    height: 30px;
+    border: 1px solid #242424;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+
+    text-decoration: none;
+}
+
+.clear {
+    background-color: #696969;
+}
+
+.adds {
+    background-color: #898e89;
+}
+
+.container, .btns {
+    display: flex;
+}
+
+.delete {
+    background: #6b6b6b;
+}
+
+.add {
+    background: #747474;
+}
+
+.edit {
+    background: #828282;
+}
+
+.custom-td {
+    width: 130px;
+}
+
+th:hover {
+    cursor: pointer;
+    background: #616161;
+}
+
+
+th {
+    user-select: none;
+}
