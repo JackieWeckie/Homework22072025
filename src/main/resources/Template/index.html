@@ -27,6 +27,13 @@
     </tr>
     </thead>
 
+
+=======
+    <script>
+        
+    </script>
+
+
     <tbody>
     <tr th:each="person : ${people}">
         <td th:text="${person.getId()}"></td>
@@ -46,6 +53,7 @@
 <p th:if="${people.isEmpty()}">The people list is empty</p>
 
 <script>
+
 
     function filterByName() {
         let input = document.getElementById('globalFilter');
@@ -106,6 +114,7 @@
             console.log("Not deleted")
         }
     }
+
 
     let sortStates = {};
 
