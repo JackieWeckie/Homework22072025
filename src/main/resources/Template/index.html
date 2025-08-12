@@ -27,9 +27,12 @@
     </tr>
     </thead>
 
+
+=======
     <script>
         
     </script>
+
 
     <tbody>
     <tr th:each="person : ${people}">
@@ -50,6 +53,68 @@
 <p th:if="${people.isEmpty()}">The people list is empty</p>
 
 <script>
+
+
+    function filterByName() {
+        let input = document.getElementById('globalFilter');
+        let value = input.value.toLowerCase();
+        let selectedFields =  document.querySelector("input[name='searchField']:checked").value;
+        const fieldIndexMap = {
+            "All":0,
+            "Age":1,
+            "Name":2,
+            "Surname":3,
+            "Type":4,
+            "Email":5
+        };
+        let columIndex = fieldIndexMap[selectedFields];
+
+        let tbody = document.querySelector('tbody');
+        let rows = tbody.querySelectorAll('tr');
+
+        for (let row of rows) {
+            let cells = row.getElementsByTagName('td');
+            if (columIndex==0){
+                let find = false;
+                for (let cell of cells) {
+                    if (cell.innerText.toLowerCase().includes(value)){
+                        find = true;
+                        break;
+                    }
+                }
+                row.style.display = (find) ?  "" : "none";
+            }else{
+                let cell = row.getElementsByTagName('td')[columIndex];
+
+                if (cell.innerText.toLowerCase().includes(value)){
+                    row.style.display = "";
+                }else{
+                    row.style.display = "none";
+                }
+            }
+        }
+    }
+
+    async function deleteByRow(id) {
+        let confirmed = confirm("Are you sure ? ");
+        if (!confirmed) return;
+        console.log(id + " person removed")
+        let tr = document.querySelector(`tr[data-id='${id}']`);
+        console.log(tr)
+        tr.remove();
+        let response = await fetch(`/person/api/delete/${id}`,{
+            method:'DELETE'
+        });
+        if (response.ok){
+            console.log(response)
+            console.log("Dannie bili udaleni")
+            let text =await response.text();
+            console.log(text)
+        }else{
+            console.log("Not deleted")
+        }
+    }
+
 
     let sortStates = {};
 
@@ -79,7 +144,6 @@
         } else {
             sortStates[columIndex] = 'asc';
         }
-
 
         sortedRow.forEach(row => {
             body.append(row);
