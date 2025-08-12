@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Person List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Persons list</h1>
+
+<div class="container">
+    <a class="btn clear" href="/person/clear">Clear</a>
+    <a class="btn add" href="/person/create">Add</a>
+    <a class="btn adds" href="/person/addPeople">Adds</a>
+</div>
+
+<table th:if="${!people.isEmpty()}" border="1">
+    <thead>
+    <tr>
+        <th onclick="sortTable(0);">Id</th>
+        <th onclick="sortTable(1);">Age</th>
+        <th onclick="sortTable(2);">Name</th>
+        <th onclick="sortTable(3);">Surname</th>
+        <th onclick="sortTable(4);">Type</th>
+        <th onclick="sortTable(5);">Email</th>
+        <th>Button</th>
+    </tr>
+    </thead>
+
+    <script>
+        
+    </script>
+
+    <tbody>
+    <tr th:each="person : ${people}">
+        <td th:text="${person.getId()}"></td>
+        <td th:text="${person.getAge()}"></td>
+        <td th:text="${person.getName()}"></td>
+        <td class="custom-td" th:text="${person.getSurname()}"></td>
+        <td class="custom-td" th:text="${person.getEmployeeType()}"></td>
+        <td class="custom-td" th:text="${person.getEmail()}"></td>
+        <td class="btns">
+            <a th:href="@{/person/delete/{id}(id=${person.getId()})}" class="btn delete">Delete</a>
+            <a th:href="@{/person/edit/{id}(id=${person.getId()})}" class="btn edit">Edit</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<p th:if="${people.isEmpty()}">The people list is empty</p>
+
+<script>
+
+    let sortStates = {};
+
+    function sortTable(columIndex) {
+        let body = document.getElementsByTagName('tbody')[0];
+        let rows = Array.from(body.getElementsByTagName('tr'));
+
+        if (sortStates[columIndex] === undefined) {
+            sortStates[columIndex] = 'asc';
+        }
+        console.log(`sortStates[${columIndex}]=` + sortStates[columIndex])
+
+        let sortMulti = sortStates[columIndex] === 'asc' ? 1 : -1;
+
+        let sortedRow = rows.sort((rowA, rowB) => {
+            let cellA = rowA.cells[columIndex].innerText.toLowerCase();
+            let cellB = rowB.cells[columIndex].innerText.toLowerCase();
+
+            if (!isNaN(cellA) && !isNaN(cellB)) {
+                return sortMulti * (Number(cellA) - Number(cellB));
+            }
+            return sortMulti * (cellA.localeCompare(cellB));
+        })
+
+        if (sortStates[columIndex] === 'asc') {
+            sortStates[columIndex] = 'desc'
+        } else {
+            sortStates[columIndex] = 'asc';
+        }
+
+
+        sortedRow.forEach(row => {
+            body.append(row);
+        });
+    }
+</script>
+</body>
+</html>
